@@ -5,7 +5,6 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
-import { compare } from "bcrypt";
 import { Business } from "./Business";
 
 import { Payments } from "./Payments";
@@ -39,8 +38,4 @@ export class Collaborators {
 
   @OneToMany(() => Transactions, (transaction) => transaction.collaborator)
   transactions: Transactions[];
-
-  comparePwd = async (pass: string): Promise<boolean> => {
-    return await compare(pass, this.password);
-  };
 }

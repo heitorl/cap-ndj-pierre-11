@@ -1,5 +1,11 @@
 import { Express } from "express";
 
-const Routers = (app: Express): void => {};
+import BusinessRoute from "./business.route";
+
+
+const Routers = (app: Express): void => {
+    app.use("/business", BusinessRoute);
+};
+
 
 export default Routers;
