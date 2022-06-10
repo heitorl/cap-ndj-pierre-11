@@ -8,20 +8,25 @@ import { Business } from "../entities";
 class BusinessService {
     login = async (datas: Partial<Business>): Promise<string> => {
         const repository = AppDataSource.getRepository(Business);
-        const user = await repository.findOneBy({ email: (datas.email as string) });
+        const business = await repository.findOneBy({ email: (datas.email as string) });
 
-        return jwt.sign({ email: user.email }, process.env.SECRET_KEY, { expiresIn: process.env.EXPIRES_IN });
+        return jwt.sign({ email: business.email }, process.env.SECRET_KEY, { expiresIn: process.env.EXPIRES_IN });
     };
+
+    readByEmail = async (email: string): Promise<Business> => {
+        const repository = AppDataSource.getRepository(Business);
+        return await repository.findOneBy({ email: email });
+    }
 
     verifyLogin = async (datas: Partial<Business>): Promise<boolean> => {
         const repository = AppDataSource.getRepository(Business);
-        const user = await repository.findOneBy({ email: (datas.email as string) });
+        const business = await repository.findOneBy({ email: (datas.email as string) });
 
-        if(!user) {
+        if(!business) {
             return false;
         }
         
-        return await compare(datas.password, user.password);
+        return await compare(datas.password, business.password);
     };
 }
 
