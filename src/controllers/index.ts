@@ -1,3 +1,8 @@
+import BusinessController from "./business.controller";
 import collaboratorController from "./collaborator.controller";
 
-export { collaboratorController };
+
+export {
+    BusinessController,
+    collaboratorController
+};

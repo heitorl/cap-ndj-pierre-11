@@ -1,3 +1,8 @@
+import BusinessService from "./business.service";
 import collaboratorService from "./collaborator.service";
 
-export { collaboratorService };
+
+export {
+    BusinessService,
+    collaboratorService,
+};

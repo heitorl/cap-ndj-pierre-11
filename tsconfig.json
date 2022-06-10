@@ -4,10 +4,12 @@
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
+    "typeRoots": [ "./@types" ],
     "outDir": "./build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false
   }
 }

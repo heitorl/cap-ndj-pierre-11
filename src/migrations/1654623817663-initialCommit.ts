@@ -1,6 +1,9 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
-import * as dotenv from "dotenv";
+import { config } from "dotenv";
 import { hashSync } from "bcrypt";
+
+
+config();
 
 export class initialCommit1654623817663 implements MigrationInterface {
   name = "initialCommit1654623817663";
