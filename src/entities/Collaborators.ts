@@ -1,3 +1,4 @@
+import { compare } from "bcrypt";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -38,4 +39,8 @@ export class Collaborators {
 
   @OneToMany(() => Transactions, (transaction) => transaction.collaborator)
   transactions: Transactions[];
+
+  comparePwd = async (pass: string): Promise<boolean> => {
+    return await compare(pass, this.password);
+  };
 }
