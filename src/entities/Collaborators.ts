@@ -1,3 +1,4 @@
+import { compare } from "bcrypt";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,7 +8,6 @@ import {
   JoinColumn,
   OneToOne,
 } from "typeorm";
-import { compare } from "bcrypt";
 import { Business } from "./Business";
 
 import { Payments } from "./Payments";
