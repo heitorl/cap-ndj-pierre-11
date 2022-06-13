@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Collaborators } from "./Collaborators";
-import { Payments } from "./Payments";
 import { Transactions } from "./Transactions";
 
 @Entity()
@@ -17,17 +16,14 @@ export class Business {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ unique: true })
   cnpj: string;
 
-  @Column({ default: false })
+  @Column({ default: true })
   isAdmin?: boolean;
 
   @OneToMany(() => Collaborators, (collaborator) => collaborator.busine)
   collaborators: Collaborators[];
-
-  @OneToMany(() => Payments, (payment) => payment.busine)
-  payments: Payments[];
 
   @OneToMany(() => Transactions, (transaction) => transaction.busine)
   transactions: Transactions[];

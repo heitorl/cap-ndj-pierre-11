@@ -14,13 +14,13 @@ import { Payments } from "./Payments";
 @Entity()
 export class Transactions {
   @PrimaryGeneratedColumn("uuid")
-  transactionInId?: string;
+  transactionId?: string;
 
   @CreateDateColumn()
   dateEmission?: Date;
 
-  @CreateDateColumn()
-  dateDeadline?: Date;
+  @Column({ nullable: true })
+  dateDeadline?: string;
 
   @Column()
   value: number;
