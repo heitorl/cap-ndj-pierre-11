@@ -1,24 +1,42 @@
 import { Request } from "express";
-
+import { Payments } from "../entities";
+import { paymentRepository } from "../repositories";
 class PaymentService {
-  createPayment = async ({ body }: Request) => {
-    return "Basic create route";
+  createPayment = async ({ validatedPayment }: Request) => {
+    //TODO: Build createPayment function
+    const newPayment = {
+      // brut_value: validatedPayment.brut_value,
+      // liquidValue: validatedPayment.liquidValue,
+      // dateEmission: new Date(),
+    };
+
+    const payment = paymentRepository.save(newPayment);
+
+    return payment;
   };
 
   listAll = async ({ body }: Request) => {
-    return "Basic list all route";
+    const paymentList = await paymentRepository.all();
+
+    return paymentList;
   };
 
-  listOne = async ({ body }: Request) => {
-    return "Basic list one route";
+  listOne = async ({ body, params }: Request) => {
+    const paymentOne = await paymentRepository.findOne({ ...params });
+
+    return paymentOne;
   };
 
-  update = async ({ body }: Request) => {
-    return "Basic update route";
-  };
+  update = async ({ validatedPayment, params }: Request) => {
+    const paymentUpdate = await paymentRepository.update(params.id, {
+      ...(validatedPayment as Payments),
+    });
 
-  delete = async ({ body }: Request) => {
-    return "Basic delete route";
+    const paymentUpdated = await paymentRepository.findOne({
+      paymentId: params.id,
+    });
+
+    return paymentUpdated;
   };
 }
 

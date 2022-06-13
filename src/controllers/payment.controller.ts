@@ -21,11 +21,6 @@ class PaymentController {
     const payment = await paymentService.update(req);
     return res.status(201).json(payment);
   };
-
-  delete = async (req: Request, res: Response) => {
-    const payment = await paymentService.delete(req);
-    return res.status(201).json(payment);
-  };
 }
 
 export default new PaymentController();
