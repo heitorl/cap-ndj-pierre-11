@@ -5,9 +5,11 @@ import {
   CreateDateColumn,
   ManyToOne,
   OneToOne,
+  ManyToMany,
 } from "typeorm";
-import { Business } from "./Business";
+import { object } from "yup";
 import { Collaborators } from "./Collaborators";
+import { Discounts } from "./Discounts";
 import { Transactions } from "./Transactions";
 
 @Entity()
@@ -24,13 +26,11 @@ export class Payments {
   @Column()
   brut_value: number;
 
-  @OneToOne(() => Transactions, (transaction) => transaction.payment, {
-    lazy: true,
-  })
-  transaction: Transactions;
+  @ManyToMany(() => Discounts)
+  discount: Discounts[];
 
-  @ManyToOne(() => Business, (busine) => busine.payments)
-  busine: Business;
+  @OneToOne(() => Transactions, (transaction) => transaction.payment)
+  transaction: Transactions;
 
   @ManyToOne(() => Collaborators, (collaborator) => collaborator.payments)
   collaborator: Collaborators;
