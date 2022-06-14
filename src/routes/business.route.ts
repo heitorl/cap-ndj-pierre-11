@@ -18,7 +18,7 @@ router.post(
     BusinessController.register,
 );
 router.patch(
-    "/register/:id",
+    "/register",
     BusinessMiddleware.verifyToken,
     validatedSchema(UpdateBusinessSchema),
     BusinessController.update,
