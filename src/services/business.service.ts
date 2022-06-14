@@ -19,7 +19,18 @@ class BusinessService {
         const business = await repository.save({ ...datas, isAdmin: true });
 
         return RemovePassword(business);
-    }
+    };
+    update = async (id: string, payload: Partial<Business>) => {
+        const repository = AppDataSource.getRepository(Business);
+        if(payload.password){
+            payload.password = await hash((payload.password as string), parseInt(process.env.HASH_LENGTH));
+        }
+
+        await repository.update(id, { ...payload });
+        const business = await repository.findOneBy({ busineId: id });
+
+        return RemovePassword(business);
+    };
     readByEmail = async (email: string): Promise<Business> => {
         const repository = AppDataSource.getRepository(Business);
         return await repository.findOneBy({ email: email });

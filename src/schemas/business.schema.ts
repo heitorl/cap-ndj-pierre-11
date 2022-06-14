@@ -10,7 +10,7 @@ const RegisterBusinessSchema = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().lowercase().email().required(),
     password: yup.string().required(),
-    cnpj: yup.string().matches(/^[0-9]{14}$/, "xx.xxx.xxx/xxxx-xx").required(),
+    cnpj: yup.string().matches(/^[0-9]{14}$/, "cnpj is invalid").required(),
 });
 
 const UpdateBusinessSchema = yup.object().shape({
