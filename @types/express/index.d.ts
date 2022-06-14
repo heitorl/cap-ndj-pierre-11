@@ -5,6 +5,7 @@ declare global {
     namespace Express{
         interface Request{
             validatedBusiness: Partial<Business>;
+            businessToken: Business;
         }
     }
 }
