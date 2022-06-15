@@ -4,18 +4,26 @@ import { sign } from "jsonwebtoken";
 import { Collaborators } from "../entities";
 import { collaboratorRepositorie } from "../repositories";
 import * as dotenv from "dotenv";
+import { serializedCreateCollaboratorSchema } from "../schemas";
 
 dotenv.config();
 
 class CollaboratorService {
   createCollaborator = async ({
-    body,
+    validatedBusiness,
   }: Request): Promise<Partial<Collaborators>> => {
-    body.password = await hash(body.password, 10);
+    (validatedBusiness as Collaborators).password = await hash(
+      (validatedBusiness as Collaborators).password,
+      10
+    );
 
-    const collaborator = await collaboratorRepositorie.save(body);
+    const collaborator = await collaboratorRepositorie.save(
+      validatedBusiness as Collaborators
+    );
 
-    return collaborator;
+    return await serializedCreateCollaboratorSchema.validate(collaborator, {
+      stripUnknown: true,
+    });
   };
 
   loginCollaborator = async ({ body }: Request) => {
