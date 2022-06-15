@@ -2,6 +2,11 @@
   "name": "cap-ndj-pierre-11",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "18.1.0",
+    "npm": "8.8.x",
+    "yarn": "1.22.x"
+  },
   "repository": "git@github.com:heitorl/cap-ndj-pierre-11.git",
   "author": "heitorl <juniorio01@hotmail.com>",
   "license": "MIT",
