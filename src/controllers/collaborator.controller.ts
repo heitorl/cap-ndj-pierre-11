@@ -15,6 +15,10 @@ class CollaboratorController {
 
     return res.status(status).json(message);
   };
+
+  testeController = (req: Request, res: Response) => {
+    return res.status(200).json({ msg: "teste" });
+  };
 }
 
 export default new CollaboratorController();

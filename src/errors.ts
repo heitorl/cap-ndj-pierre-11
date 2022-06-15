@@ -1,30 +1,23 @@
 import { Response } from "express";
-import { ValidationError } from "yup";
 
+type TMessage = string | Record<string, any>;
 
-class ErrorHandler{
-    statusCode: number;
-    messages: string | object;
+class ErrorHandler {
+  public statusCode: number;
+  public error: TMessage;
 
-    constructor(message: string | object, statusCode: number = 400){
-        this.statusCode = statusCode;
-        this.messages = message;
-    }
+  constructor(statusCode: number, message: TMessage) {
+    this.statusCode = statusCode;
+    this.error = message;
+  }
 }
 
 const errorHandler = (err: Error, res: Response) => {
-    if(err instanceof ErrorHandler){
-        return res.status(err.statusCode).send({ "error": err.messages });
-    }
-    if(err instanceof ValidationError){
-        return res.status(400).send({ "error": err.errors });
-    }
+  if (err instanceof ErrorHandler) {
+    return res.status(err.statusCode).json({ error: err.error });
+  }
 
-    res.status(400).send(err);
+  return res.status(500).json({ message: "Internal server error." });
 };
 
-
-export {
-    ErrorHandler,
-    errorHandler,
-};
+export { ErrorHandler, errorHandler };
