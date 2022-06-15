@@ -1,4 +1,4 @@
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { Request } from "express";
 import { sign } from "jsonwebtoken";
 import { Collaborators } from "../entities";
