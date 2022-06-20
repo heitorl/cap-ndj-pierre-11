@@ -23,6 +23,11 @@ router.patch(
     validatedSchema(UpdateBusinessSchema),
     BusinessController.update,
 );
+router.get(
+    "",
+    BusinessMiddleware.verifyToken,
+    BusinessController.read
+);
 
 
 export default router;

@@ -3,6 +3,7 @@ import { Business } from "../entities";
 import { DatabaseError } from "pg";
 
 import { BusinessService } from "../services";
+import { RemovePassword } from "../utils";
 
 class BusinessController {
   login = async (req: Request, res: Response) => {
@@ -39,6 +40,9 @@ class BusinessController {
       }
       res.status(400).send({ error: (err as Error).message });
     }
+  };
+  read = (req: Request, res: Response) => {
+    res.send({ business: RemovePassword(req.businessToken) });
   };
 }
 
