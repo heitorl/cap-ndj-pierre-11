@@ -15,7 +15,7 @@ export class bankData {
   @PrimaryGeneratedColumn("uuid")
   bankDataId?: string;
 
-  @CreateDateColumn()
+  @Column()
   pix: string;
 
   @Column()
@@ -27,7 +27,9 @@ export class bankData {
   @Column()
   banco: string;
 
-  @OneToOne(() => Collaborators, (collaborator) => collaborator.bankData)
+  @OneToOne(() => Collaborators, (collaborator) => collaborator.bankData, {
+    nullable: true,
+  })
   @JoinColumn()
   collaborator: Collaborators;
 }
