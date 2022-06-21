@@ -8,7 +8,7 @@ class DiscountController {
   };
 
   listAll = async (req: Request, res: Response) => {
-    const list = await discountsService.listAll(req);
+    const list = await discountsService.listAll();
     return res.status(201).json(list);
   };
 
