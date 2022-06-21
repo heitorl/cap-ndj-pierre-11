@@ -8,7 +8,7 @@ class TransactionController {
   };
 
   listAll = async (req: Request, res: Response) => {
-    const list = await transactionsService.listAll(req);
+    const list = await transactionsService.listAll();
     return res.status(201).json(list);
   };
 
