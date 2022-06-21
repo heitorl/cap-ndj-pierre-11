@@ -1,4 +1,4 @@
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -37,8 +37,9 @@ export class Collaborators {
   @Column({ default: false })
   isPaymaster?: boolean;
 
-  @OneToOne(() => bankData, (bankdata) => bankdata.collaborator)
-  @JoinColumn()
+  @OneToOne(() => bankData, (bankdata) => bankdata.collaborator, {
+    eager: true,
+  })
   bankData: bankData;
 
   @ManyToOne(() => Business, (busine) => busine.collaborators)
