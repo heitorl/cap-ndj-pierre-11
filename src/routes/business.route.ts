@@ -1,8 +1,9 @@
 import { Router } from "express";
 
 import { BusinessController } from "../controllers";
-import { BusinessMiddleware, validatedSchema } from "../middlewares";
-import { LoginBusinessSchema, RegisterBusinessSchema, UpdateBusinessSchema } from "../schemas";
+import businessController from "../controllers/business.controller";
+import { BusinessMiddleware, validatedSchema, collaboratorMiddlewares } from "../middlewares";
+import { LoginBusinessSchema, RegisterBusinessSchema, UpdateBusinessSchema, RegisterCollaboratorSchema } from "../schemas";
 
 
 const router = Router();
@@ -26,7 +27,25 @@ router.patch(
 router.get(
     "",
     BusinessMiddleware.verifyToken,
-    BusinessController.read
+    BusinessController.read,
+);
+router.post(
+    "/collaborator/:id",
+    BusinessMiddleware.verifyToken,
+    validatedSchema(RegisterCollaboratorSchema),
+    collaboratorMiddlewares.verifyCollaboratorIfExist,
+    BusinessController.registerCollaborator,
+);
+router.get(
+    "/collaborator",
+    BusinessMiddleware.verifyToken,
+    businessController.readsCollaborators,
+);
+router.get(
+    "/collaborator/:id",
+    BusinessMiddleware.verifyToken,
+    collaboratorMiddlewares.verifyCollaboratorIfExist,
+    businessController.readCollaborator,
 );
 
 

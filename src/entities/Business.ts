@@ -22,7 +22,7 @@ export class Business {
   @Column({ default: true })
   isAdmin?: boolean;
 
-  @OneToMany(() => Collaborators, (collaborator) => collaborator.busine, { eager: true })
+  @OneToMany(() => Collaborators, (collaborator) => collaborator.busine)
   collaborators: Collaborators[];
 
   @OneToMany(() => Transactions, (transaction) => transaction.busine, { eager: true })

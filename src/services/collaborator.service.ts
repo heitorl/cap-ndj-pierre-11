@@ -10,7 +10,7 @@ dotenv.config();
 
 class CollaboratorService {
   createCollaborator = async ({
-    validatedBusiness,
+    validatedDatas: validatedBusiness,
   }: Request): Promise<Partial<Collaborators>> => {
     (validatedBusiness as Collaborators).password = await hash(
       (validatedBusiness as Collaborators).password,
@@ -50,6 +50,14 @@ class CollaboratorService {
     });
 
     return { status: 200, message: { token } };
+  };
+
+  readById = async (id: string) => {
+    const collaborator = await collaboratorRepositorie.findOne({
+      collaboratorId: id
+    });
+
+    return collaborator;
   };
 }
 
