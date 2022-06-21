@@ -1,6 +1,6 @@
 import { Express } from "express";
 import collaboratorRouter from "./collaborator.route";
-
+import discountRouter from "./discount.route";
 import BusinessRoute from "./business.route";
 import paymentRouter from "./payment.route";
 import bankDataRouter from "./bankData.route";
@@ -10,6 +10,7 @@ const Routers = (app: Express): void => {
   app.use("/api/collaborators", collaboratorRouter);
   app.use("/api/payments", paymentRouter);
   app.use("/api/bank", bankDataRouter);
+  app.use("/api/discounts", discountRouter);
 };
 
 export default Routers;
