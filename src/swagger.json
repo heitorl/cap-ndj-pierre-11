@@ -1,0 +1,539 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-Pay",
+    "description": "Controle e agilidade nas transações financeiras",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "testing url"
+    }
+  ],
+  "paths": {
+    "/api/bank/register": {
+      "post": {
+        "tags": ["Banco"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Registra um novo Banco",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Banco"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Wrong/missing fields"
+          },
+          "401": {
+            "description": "Jwt mal formated | Missing authorization token."
+          }
+        }
+      }
+    },
+    "/api/business": {
+      "get": {
+        "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Atualiza o business",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          }
+        }
+      }
+    },
+    "/api/business/register": {
+      "post": {
+        "tags": ["Business"],
+        "description": "Registra um novo business",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Business"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Wrong/missing fields"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Atualiza o business",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Business"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Internal server error"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          },
+          "409": {
+            "description": "#TODO: Get the error message"
+          }
+        }
+      }
+    },
+    "/api/business/login": {
+      "post": {
+        "tags": ["Business"],
+        "description": "Loga o business",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BusinessLogin" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Missing/Wrong fields"
+          },
+          "401": {
+            "description": "not authorized | email or password is invalid"
+          }
+        }
+      }
+    },
+    "/api/business/collaborator": {
+      "get": {
+        "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Lista todos os collaborators do business",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          }
+        }
+      }
+    },
+    "/api/business/collaborator/:id": {
+      "post": {
+        "tags": ["Business"],
+        "description": "Registra um collaborator no business",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessCollaborator"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Wrong/missing fields"
+          },
+          "401": {
+            "description": "not authorized | Jwt malformated"
+          },
+          "404": {
+            "description": "Collaborator not found"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Business"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Jwt malformated"
+          },
+          "404": {
+            "description": "Collaborator not found"
+          }
+        }
+      }
+    },
+
+    "/api/payments": {
+      "post": {
+        "tags": ["Payments"],
+        "description": "Registra um novo pagamento",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Wrong/missing fields"
+          },
+          "401": {
+            "description": "not authorized | Jwt malformated"
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      },
+      "get": {
+        "tags": ["Payments"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Jwt mal formated"
+          }
+        }
+      }
+    },
+    "/api/payments/:id": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+
+    "/api/discounts": {
+      "post": {
+        "tags": ["Discounts"],
+        "description": "Registra um novo desconto",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discount"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": ""
+          }
+        }
+      },
+      "get": {
+        "tags": ["Discounts"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/discounts/:id": {
+      "get": {
+        "tags": ["Discounts"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Discounts"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Discount"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Discounts"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+
+    "/api/transactions": {
+      "post": {
+        "tags": ["Transactions"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Transactions"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/transactions/:id": {
+      "get": {
+        "tags": ["Transaction"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Transaction"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Transaction"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "Banco": {
+        "type": "object",
+        "properties": {
+          "pix": {
+            "type": "string",
+            "nullable": false,
+            "example": "000.000.000-00"
+          },
+          "agencia": {
+            "type": "string",
+            "nullable": false,
+            "example": "000-0"
+          },
+          "conta": {
+            "type": "string",
+            "nullable": false,
+            "uniqueItems": true,
+            "example": "00000000-0"
+          },
+          "banco": {
+            "type": "string",
+            "nullable": false,
+            "example": "Banco do Brasil"
+          }
+        }
+      },
+      "Business": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "example": "Nome do Business"
+          },
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "example": "email@do.business"
+          },
+          "password": {
+            "type": "string",
+            "nullable": false,
+            "example": "SenhaDoBusiness1*#"
+          },
+          "cnpj": {
+            "type": "string",
+            "nullable": false,
+            "example": "0000000000000-00"
+          }
+        }
+      },
+      "BusinessCollaborator": {
+        "type": "object",
+        "properties": {
+          "isPaymaster": {
+            "type": "string",
+            "nullable": true,
+            "example": true
+          }
+        }
+      },
+      "Discount": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "nullable": false,
+            "example": 0
+          },
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "example": "transporte"
+          }
+        }
+      },
+      "BusinessLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "example": "email@do.business"
+          },
+          "password": {
+            "type": "string",
+            "nullable": false,
+            "example": "SenhaDoBusiness1*#"
+          }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "nullable": false,
+            "example": 3000
+          },
+          "description": {
+            "type": "string",
+            "nullable": false,
+            "example": "Pagamento mensal para o funcionário John Doe"
+          },
+          "type": {
+            "type": "string",
+            "nullable": false,
+            "example": "Pagamento"
+          },
+          "collaborator_id": {
+            "type": "string",
+            "nullable": false,
+            "example": "j0hnd03id!"
+          },
+          "deadline": {
+            "type": "string",
+            "nullable": false,
+            "example": "15/06/2022"
+          }
+        }
+      }
+    }
+  }
+}
