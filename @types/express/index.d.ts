@@ -8,10 +8,11 @@ import {
 declare global {
   namespace Express {
     interface Request {
-      validatedBusiness: Partial<Business | Collaborators>;
+      validatedDatas: Partial<Business | Collaborators>;
       businessToken: Business;
       validatedPayment: Partial<Payments>;
       decoded: Collaborators;
+      collaborator: Collaborators
     }
   }
 }

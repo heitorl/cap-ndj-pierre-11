@@ -19,9 +19,14 @@ const UpdateBusinessSchema = yup.object().shape({
     password: yup.string(),
 });
 
+const RegisterCollaboratorSchema = yup.object().shape({
+    isPaymaster: yup.boolean().default(false).optional(),
+});
+
 
 export {
     LoginBusinessSchema,
     RegisterBusinessSchema,
     UpdateBusinessSchema,
+    RegisterCollaboratorSchema
 };
