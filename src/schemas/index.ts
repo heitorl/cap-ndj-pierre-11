@@ -12,6 +12,7 @@ import {
   UpdateBusinessSchema,
   RegisterCollaboratorSchema
 } from "./business.schema";
+import { RegisterTransactionSchema } from "./transaction.schema";
 
 const CheckIdSchema = yup.object().shape({
   id: yup.string().uuid().required(),
@@ -26,4 +27,5 @@ export {
   serializedCreateCollaboratorSchema,
   loginCollaboratorSchema,
   RegisterCollaboratorSchema,
+  RegisterTransactionSchema,
 };

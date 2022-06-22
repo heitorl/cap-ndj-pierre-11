@@ -5,6 +5,7 @@ import { Collaborators } from "../entities";
 import { collaboratorRepositorie } from "../repositories";
 import * as dotenv from "dotenv";
 import { serializedCreateCollaboratorSchema } from "../schemas";
+import { AppDataSource } from "../data-source";
 
 dotenv.config();
 
@@ -64,6 +65,11 @@ class CollaboratorService {
     });
 
     return collaborator;
+  };
+
+  readByEmail = async (email: string) => {
+    const repository = AppDataSource.getRepository(Collaborators);
+    return await repository.findOneBy({ email: email });
   };
 }
 

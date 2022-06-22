@@ -1,24 +1,21 @@
 import { Request, Response } from "express";
+import { Business, Collaborators, Transactions } from "../entities";
 import { transactionsService } from "../services";
 
 class TransactionController {
   create = async (req: Request, res: Response) => {
-    const created = await transactionsService.create(req);
-    return res.status(201).json(created);
+    const { busine, payment, ...transaction } = await transactionsService.create(req.validatedDatas as Transactions, req.UserToken);
+
+    return res.status(201).json({ transaction });
   };
 
   listAll = async (req: Request, res: Response) => {
-    const list = await transactionsService.listAll();
+    const list = await transactionsService.listAll(req.validatedDatas as Transactions, req.UserToken);
     return res.json(list);
   };
 
   listOne = async (req: Request, res: Response) => {
     const payment = await transactionsService.listOne(req);
-    return res.json(payment);
-  };
-
-  update = async (req: Request, res: Response) => {
-    const payment = await transactionsService.update(req);
     return res.json(payment);
   };
 
