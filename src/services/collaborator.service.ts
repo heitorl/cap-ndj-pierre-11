@@ -4,7 +4,11 @@ import { sign } from "jsonwebtoken";
 import { Collaborators } from "../entities";
 import { collaboratorRepositorie } from "../repositories";
 import * as dotenv from "dotenv";
-import { serializedCreateCollaboratorSchema } from "../schemas";
+import {
+  serializedCreateCollaboratorSchema,
+  serializedUpdateCollaboratorSchema,
+} from "../schemas";
+import { RemovePassword } from "../utils";
 
 dotenv.config();
 
@@ -45,11 +49,53 @@ class CollaboratorService {
       };
     }
 
-    const token: string = sign({ ...collaborator }, process.env.SECRET_KEY, {
-      expiresIn: process.env.EXPIRES_IN,
-    });
+    const token: string = sign(
+      {
+        collaboratorId: collaborator.collaboratorId,
+        email: collaborator.email,
+        isPaymaster: collaborator.isPaymaster,
+      },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: process.env.EXPIRES_IN,
+      }
+    );
 
     return { status: 200, message: { token } };
+  };
+
+  getAll = async () => {
+    const collaborators = await collaboratorRepositorie.all();
+
+    // return await serializedGetCollaboratorSchema.validate(collaborators, {
+    //   stripUnknown: true,
+    // });
+
+    return collaborators;
+  };
+
+  retrieve = async ({ params }: Request) => {
+    console.log(params);
+    const collaborator = await collaboratorRepositorie.findOne({
+      collaboratorId: params.id,
+    });
+
+    return collaborator;
+  };
+
+  updateCollaborator = async ({
+    params,
+    body,
+  }: Request): Promise<Partial<Collaborators>> => {
+    await collaboratorRepositorie.update(params.id, {
+      ...body,
+    });
+    const collaborator = await collaboratorRepositorie.findOne({
+      collaboratorId: params.id,
+    });
+    return await serializedUpdateCollaboratorSchema.validate(collaborator, {
+      stripUnknown: true,
+    });
   };
 }
 

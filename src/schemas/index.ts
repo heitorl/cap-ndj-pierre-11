@@ -2,6 +2,8 @@ import {
   createCollaboratorSchema,
   serializedCreateCollaboratorSchema,
   loginCollaboratorSchema,
+  serializedGetCollaboratorSchema,
+  serializedUpdateCollaboratorSchema,
 } from "./collaborator";
 
 import * as yup from "yup";
@@ -24,4 +26,6 @@ export {
   createCollaboratorSchema,
   serializedCreateCollaboratorSchema,
   loginCollaboratorSchema,
+  serializedGetCollaboratorSchema,
+  serializedUpdateCollaboratorSchema,
 };

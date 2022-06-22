@@ -1,13 +1,9 @@
-import { Business, Collaborators, } from "../entities";
-
+import { Business, Collaborators } from "../entities";
 
 const RemovePassword = (datas: Partial<Business | Collaborators>) => {
-    const { password, ...user } = datas;
+  const { password, ...user } = datas;
 
-    return user;
+  return user;
 };
 
-
-export {
-    RemovePassword,
-};
+export { RemovePassword };
