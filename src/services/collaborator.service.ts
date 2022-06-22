@@ -52,6 +52,12 @@ class CollaboratorService {
     return { status: 200, message: { token } };
   };
 
+  reads = async () => {
+    const collaborators = await collaboratorRepositorie.find();
+
+    return collaborators;
+  };
+
   readById = async (id: string) => {
     const collaborator = await collaboratorRepositorie.findOne({
       collaboratorId: id

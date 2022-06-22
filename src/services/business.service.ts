@@ -17,6 +17,7 @@ class BusinessService {
             expiresIn: process.env.EXPIRES_IN,
         });
     };
+
     register = async (datas: Partial<Business>): Promise<Partial<Business>> => {
         const repository = AppDataSource.getRepository(Business);
         datas.password = await hash(
@@ -27,6 +28,7 @@ class BusinessService {
 
         return RemovePassword(business);
     };
+
     update = async (id: string, payload: Partial<Business>) => {
         const repository = AppDataSource.getRepository(Business);
         if (payload.password) {
@@ -41,7 +43,8 @@ class BusinessService {
 
         return RemovePassword(business);
     };
-    registerCollaborator = async (collaborator: Collaborators, business: Business) => {
+
+    registerCollaborator = async (collaborator: Collaborators, business: Business, datas: Partial<Collaborators>) => {
         const repositoryCollaborator = AppDataSource.getRepository(Collaborators);
 
         const collaboratorDb = await repositoryCollaborator.createQueryBuilder("collaborators")
@@ -49,10 +52,36 @@ class BusinessService {
         if (collaboratorDb?.busine) {
             throw new ErrorHandler(409, "Collaborator is already registered");
         }
-        await repositoryCollaborator.update(collaborator.collaboratorId, { isPaymaster: true, busine: business });
 
+        await repositoryCollaborator.update(collaborator.collaboratorId, { isPaymaster: datas.isPaymaster, busine: business });
         return await repositoryCollaborator.findOneBy({ collaboratorId: collaborator.collaboratorId });
     };
+
+    updateCollaborator = async (collaborator: Collaborators, business: Business, datas: Partial<Collaborators>) => {
+        const repositoryCollaborator = AppDataSource.getRepository(Collaborators);
+
+        const collaboratorDb = await repositoryCollaborator.createQueryBuilder("collaborators")
+            .innerJoinAndSelect("collaborators.busine", "business").where({ collaboratorId: collaborator.collaboratorId }).getOne();
+        if (!collaboratorDb?.busine || collaborator.busine.busineId !== business.busineId) {
+            throw new ErrorHandler(404, "Collaborator is not registered");
+        }
+
+        await repositoryCollaborator.update(collaborator.collaboratorId, { isPaymaster: datas.isPaymaster });
+        return await repositoryCollaborator.findOneBy({ collaboratorId: collaborator.collaboratorId });
+    };
+
+    deleteCollaborator = async (collaborator: Collaborators, business: Business) => {
+        const repositoryCollaborator = AppDataSource.getRepository(Collaborators);
+
+        const collaboratorDb = await repositoryCollaborator.createQueryBuilder("collaborators")
+            .innerJoinAndSelect("collaborators.busine", "business").where({ collaboratorId: collaborator.collaboratorId }).getOne();
+        if (!collaboratorDb?.busine || collaborator.busine.busineId !== business.busineId) {
+            throw new ErrorHandler(404, "Collaborator is not registered");
+        }
+
+        await repositoryCollaborator.update(collaborator.collaboratorId, { isPaymaster: false, busine: null });
+    };
+
     readsCollaborators = async (business: Business) => {
         const repository = AppDataSource.getRepository(Business);
         const businessDb = await repository.createQueryBuilder("business")
@@ -60,6 +89,7 @@ class BusinessService {
 
         return businessDb?.collaborators? businessDb.collaborators: [];
     };
+
     readsBusinessCollaborator = async (collaborator: Collaborators) => {
         const repository = AppDataSource.getRepository(Collaborators);
         const collaboratorDb = await repository.createQueryBuilder("collaborators")
@@ -67,6 +97,7 @@ class BusinessService {
         
         return collaboratorDb
     };
+
 
     readByEmail = async (email: string): Promise<Business> => {
         const repository = AppDataSource.getRepository(Business);

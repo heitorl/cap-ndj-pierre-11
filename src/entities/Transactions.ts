@@ -31,10 +31,7 @@ export class Transactions {
   @Column()
   type: string;
 
-  @OneToOne(() => Payments, (payment) => payment.transaction, {
-    nullable: true,
-  })
-  @JoinColumn()
+  @OneToOne(() => Payments, (payment) => payment.transaction)
   payment: Payments;
 
   @ManyToOne(() => Business, (busine) => busine.transactions)

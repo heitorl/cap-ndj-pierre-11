@@ -23,9 +23,9 @@ collaboratorRouter.post(
 );
 
 collaboratorRouter.get(
-  "/all",
-  verifyToken,
-  collaboratorController.testeController
+  "",
+  collaboratorController.reads
 );
+
 
 export default collaboratorRouter;

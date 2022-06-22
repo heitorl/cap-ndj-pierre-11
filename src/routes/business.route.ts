@@ -19,7 +19,7 @@ router.post(
     BusinessController.register,
 );
 router.patch(
-    "/register",
+    "",
     BusinessMiddleware.verifyToken,
     validatedSchema(UpdateBusinessSchema),
     BusinessController.update,
@@ -30,19 +30,31 @@ router.get(
     BusinessController.read,
 );
 router.post(
-    "/collaborator/:id",
+    "/collaborators/:id",
     BusinessMiddleware.verifyToken,
     validatedSchema(RegisterCollaboratorSchema),
     collaboratorMiddlewares.verifyCollaboratorIfExist,
     BusinessController.registerCollaborator,
 );
+router.patch(
+    "/collaborators/:id",
+    BusinessMiddleware.verifyToken,
+    validatedSchema(RegisterCollaboratorSchema),
+    collaboratorMiddlewares.verifyCollaboratorIfExist,
+    BusinessController.updateCollaborator,
+);
+router.delete(
+    "/collaborators/:id",
+    BusinessMiddleware.verifyToken,
+    collaboratorMiddlewares.verifyCollaboratorIfExist,
+);
 router.get(
-    "/collaborator",
+    "/collaborators",
     BusinessMiddleware.verifyToken,
     businessController.readsCollaborators,
 );
 router.get(
-    "/collaborator/:id",
+    "/collaborators/:id",
     BusinessMiddleware.verifyToken,
     collaboratorMiddlewares.verifyCollaboratorIfExist,
     businessController.readCollaborator,

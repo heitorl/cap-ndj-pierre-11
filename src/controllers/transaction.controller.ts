@@ -9,22 +9,22 @@ class TransactionController {
 
   listAll = async (req: Request, res: Response) => {
     const list = await transactionsService.listAll();
-    return res.status(201).json(list);
+    return res.json(list);
   };
 
   listOne = async (req: Request, res: Response) => {
     const payment = await transactionsService.listOne(req);
-    return res.status(201).json(payment);
+    return res.json(payment);
   };
 
   update = async (req: Request, res: Response) => {
     const payment = await transactionsService.update(req);
-    return res.status(201).json(payment);
+    return res.json(payment);
   };
 
   delete = async (req: Request, res: Response) => {
     const payment = await transactionsService.delete(req);
-    return res.status(201).json(payment);
+    return res.json(payment);
   };
 }
 

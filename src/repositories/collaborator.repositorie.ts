@@ -23,6 +23,8 @@ class CollaboratorRepo implements ICollaboratorRepo {
   findOne = async (payload: object) => {
     return await this.repo.findOneBy({ ...payload });
   };
+
+  find = async () => await this.repo.find();
 }
 
 export default new CollaboratorRepo();

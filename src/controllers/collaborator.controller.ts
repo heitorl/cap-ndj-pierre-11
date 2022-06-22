@@ -16,8 +16,16 @@ class CollaboratorController {
     return res.status(status).json(message);
   };
 
-  testeController = (req: Request, res: Response) => {
-    return res.status(200).json({ msg: "teste" });
+  reads = async (_: Request, res: Response) => {
+    const collaborators = await collaboratorService.reads();
+
+    res.send({
+      collaborators: collaborators.map(collaborator => {
+        const { password, isPaymaster, ...c } = collaborator;
+
+        return c;
+      })
+    });
   };
 }
 
