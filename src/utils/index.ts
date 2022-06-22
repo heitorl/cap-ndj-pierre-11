@@ -6,4 +6,10 @@ const RemovePassword = (datas: Partial<Business | Collaborators>) => {
   return user;
 };
 
-export { RemovePassword };
+const RemoveBusiness = (datas: Partial<Collaborators>) => {
+  const { busine, ...user } = datas;
+
+  return user;
+};
+
+export { RemovePassword, RemoveBusiness };

@@ -5,7 +5,7 @@ import bankDataRepositorie from "../repositories/bankData.repositorie";
 import { serializedCreateBankDataSchema } from "../schemas/bankData.schema";
 
 class BankDataService {
-  createBankData = async ({ validatedBusiness, decoded }: Request) => {
+  createBankData = async ({ validatedDatas: validatedBusiness, decoded }: Request) => {
     const collaborator: Collaborators = await collaboratorRepositorie.findOne({
       collaboratorId: decoded.collaboratorId,
     });
