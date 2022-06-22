@@ -25,6 +25,6 @@ export class Business {
   @OneToMany(() => Collaborators, (collaborator) => collaborator.busine)
   collaborators: Collaborators[];
 
-  @OneToMany(() => Transactions, (transaction) => transaction.busine)
+  @OneToMany(() => Transactions, (transaction) => transaction.busine, { eager: true })
   transactions: Transactions[];
 }

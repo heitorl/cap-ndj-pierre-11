@@ -6,7 +6,6 @@ const createCollaboratorSchema = yup.object().shape({
   password: yup.string().required(),
   contact: yup.string().required(),
   cpf: yup.string().required(),
-  isPaymaster: yup.boolean().default(false).optional(),
 });
 
 const serializedCreateCollaboratorSchema = yup.object().shape({
