@@ -58,6 +58,13 @@ class TransactionService {
 
     return transaction;
   };
+  readByIdPayments = async (id: string, business: Business) => {
+    const repository = AppDataSource.getRepository(Transactions);
+    const transaction = await repository.createQueryBuilder("transactions").innerJoinAndSelect("transactions.busine", "business")
+      .innerJoinAndSelect("transactions.payment", "payments").where({ transactionId: id, busine: business }).getOne();
+    
+    return transaction;
+  }
 }
 
 export default new TransactionService();
