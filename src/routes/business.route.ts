@@ -2,8 +2,10 @@ import { Router } from "express";
 
 import { BusinessController } from "../controllers";
 import businessController from "../controllers/business.controller";
-import { BusinessMiddleware, validatedSchema, collaboratorMiddlewares } from "../middlewares";
-import { LoginBusinessSchema, RegisterBusinessSchema, UpdateBusinessSchema, RegisterCollaboratorSchema } from "../schemas";
+import { BusinessMiddleware, validatedSchema, collaboratorMiddlewares, validateToken } from "../middlewares";
+import {
+    LoginBusinessSchema, RegisterBusinessSchema, UpdateBusinessSchema, RegisterCollaboratorSchema,
+} from "../schemas";
 
 
 const router = Router();
@@ -29,6 +31,7 @@ router.get(
     BusinessMiddleware.verifyToken,
     BusinessController.read,
 );
+
 router.post(
     "/collaborators/:id",
     BusinessMiddleware.verifyToken,

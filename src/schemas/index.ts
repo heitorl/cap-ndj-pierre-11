@@ -14,6 +14,9 @@ import {
 } from "./business.schema";
 import { RegisterTransactionSchema } from "./transaction.schema";
 
+import { RegisterPaymentSchema } from "./payment.schema";
+
+
 const CheckIdSchema = yup.object().shape({
   id: yup.string().uuid().required(),
 });
@@ -28,4 +31,5 @@ export {
   loginCollaboratorSchema,
   RegisterCollaboratorSchema,
   RegisterTransactionSchema,
+  RegisterPaymentSchema,
 };

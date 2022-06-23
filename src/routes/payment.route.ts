@@ -1,12 +1,18 @@
 import { Router } from "express";
 import { paymentController } from "../controllers";
+import { validateToken, TransactionMiddleware , validatedSchema } from "../middlewares";
+import { RegisterPaymentSchema } from "../schemas";
 
 const paymentRouter = Router();
 
-paymentRouter.post("/", paymentController.createPayment);
-paymentRouter.get("/", paymentController.listAll);
-paymentRouter.get("/:id", paymentController.listOne);
-paymentRouter.patch("/:id", paymentController.update);
-paymentRouter.delete("/:id", paymentController.delete);
+
+paymentRouter.post(
+    "/:id",
+    validateToken,
+    validatedSchema(RegisterPaymentSchema),
+    TransactionMiddleware.verifyTransactionsIfExist,
+    paymentController.createPayment,
+);
+
 
 export default paymentRouter;

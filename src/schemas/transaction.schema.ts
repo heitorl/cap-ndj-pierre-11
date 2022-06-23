@@ -10,4 +10,4 @@ const RegisterTransactionSchema = yup.object().shape({
 
 export {
     RegisterTransactionSchema,
-}
+};

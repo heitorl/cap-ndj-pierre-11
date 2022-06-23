@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Business, Collaborators, Transactions } from "../entities";
+import { Collaborators, Transactions } from "../entities";
 import { transactionsService } from "../services";
 import { RemovePassword } from "../utils";
 
@@ -13,12 +13,24 @@ class TransactionController {
   };
 
   listAll = async (req: Request, res: Response) => {
-    const list = await transactionsService.listAll(req.validatedDatas as Transactions, req.UserToken);
+    const list = await transactionsService.listAll(req.UserToken);
     return res.json({ transactions: list.map(transaction => {
         const { busine, ...t } = transaction;
         t.collaborator = RemovePassword(t.collaborator) as Collaborators;
         return t;
-    }) });
+      }) 
+    });
+  };
+
+  readsTransaction = async (req: Request, res: Response) => {
+    const list = await transactionsService.readsTransaction(req.UserToken);
+    
+    return res.json({ transactions: list.map(transaction => {
+        const { busine, ...t } = transaction;
+        t.collaborator = RemovePassword(t.collaborator) as Collaborators;
+        return t;
+      })
+    });
   };
 
   listOne = async (req: Request, res: Response) => {

@@ -27,7 +27,7 @@ export class Payments {
   @Column()
   brut_value: number;
 
-  @ManyToMany(() => Discounts)
+  @ManyToMany(() => Discounts, (discount) => discount.payments)
   discount: Discounts[];
 
   @OneToOne(() => Transactions, (transaction) => transaction.payment)
