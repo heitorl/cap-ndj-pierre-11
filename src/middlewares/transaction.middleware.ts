@@ -9,9 +9,11 @@ class TransactionsMiddleware {
     verifyTransactionsIfExist = async (req: Request, res: Response, next: NextFunction) => {
         const { id } = req.params;
 
-        const transaction = await transactionsService.readById(id, (req.UserToken instanceof Business)? req.UserToken: req.UserToken.busine);
+        const transaction = (req.UserToken)?
+             await transactionsService.readById(id, (req.UserToken instanceof Business)? req.UserToken: req.UserToken.busine):
+             await transactionsService.readById(id, req.businessToken);
         if(!transaction){
-            throw new ErrorHandler(404, "Collaborator not found");
+            throw new ErrorHandler(404, "Transaction not found");
         }
 
         req.transaction = transaction;
