@@ -17,11 +17,11 @@ export const AppDataSource = new DataSource({
   logging: false,
   entities:
     process.env.NODE_ENV === "production"
-      ? ["build/entities/*.js"]
+      ? ["build/src/entities/*.js"]
       : [path.join(__dirname, "/entities/**/*.{ts,js}")],
   migrations:
     process.env.NODE_ENV === "production"
-      ? ["build/migrations/*.js"]
+      ? ["build/src/migrations/*.js"]
       : [path.join(__dirname, "/migrations/**/*.{ts,js}")],
 });
 
