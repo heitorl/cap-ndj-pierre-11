@@ -41,7 +41,7 @@
             "description": "Wrong/missing fields"
           },
           "401": {
-            "description": "Jwt mal formated | Missing authorization token."
+            "description": "Jwt mal formated | not authorized | Missing authorization token."
           }
         }
       }
@@ -57,13 +57,48 @@
             "schema": { "type": "string" }
           }
         ],
-        "description": "Atualiza o business",
+        "description": "Lista o Business",
         "responses": {
           "200": {
             "description": "OK"
           },
           "401": {
             "description": "not authorized | Invalid token"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Atualiza o business",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Missing/Wrong fields"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          },
+          "409": {
+            "description": "Duplicated information"
           }
         }
       }
@@ -87,41 +122,12 @@
           },
           "400": {
             "description": "Wrong/missing fields"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Business"],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "query",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "description": "Atualiza o business",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Business"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Internal server error"
           },
           "401": {
-            "description": "not authorized | Invalid token"
+            "description": "not authorized"
           },
           "409": {
-            "description": "#TODO: Get the error message"
+            "description": "Duplicated information"
           }
         }
       }
@@ -145,12 +151,12 @@
             "description": "Missing/Wrong fields"
           },
           "401": {
-            "description": "not authorized | email or password is invalid"
+            "description": "not authorized | email or password is invalid | invalid token"
           }
         }
       }
     },
-    "/api/business/collaborator": {
+    "/api/business/collaborators": {
       "get": {
         "tags": ["Business"],
         "parameters": [
@@ -172,9 +178,17 @@
         }
       }
     },
-    "/api/business/collaborator/:id": {
+    "/api/business/collaborators/:id": {
       "post": {
         "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
         "description": "Registra um collaborator no business",
         "requestBody": {
           "content": {
@@ -186,14 +200,14 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "OK"
           },
           "400": {
             "description": "Wrong/missing fields"
           },
           "401": {
-            "description": "not authorized | Jwt malformated"
+            "description": "not authorized | invalid token"
           },
           "404": {
             "description": "Collaborator not found"
@@ -202,12 +216,79 @@
       },
       "get": {
         "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Retorna o Collaborator do business",
         "responses": {
           "200": {
             "description": "OK"
           },
           "401": {
-            "description": "not authorized | Jwt malformated"
+            "description": "not authorized | Invalid Token"
+          },
+          "404": {
+            "description": "Collaborator not found"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Retorna o Collaborator do business",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BusinessCollaborator"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Wrong/missing fields"
+          },
+          "401": {
+            "description": "not authorized | Invalid Token"
+          },
+          "404": {
+            "description": "Collaborator not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Business"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Remove o Collaborator do business",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Invalid Token"
           },
           "404": {
             "description": "Collaborator not found"
@@ -219,28 +300,36 @@
     "/api/payments": {
       "post": {
         "tags": ["Payments"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
         "description": "Registra um novo pagamento",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": ""
+                "$ref": "#/components/schemas/Payment"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "OK"
+            "description": "Created"
           },
           "400": {
             "description": "Wrong/missing fields"
           },
           "401": {
-            "description": "not authorized | Jwt malformated"
+            "description": "not authorized | Invalid token"
           },
           "404": {
-            "description": ""
+            "description": "Transaction not foun"
           }
         }
       },
@@ -258,6 +347,7 @@
     },
     "/api/payments/:id": {
       "get": {
+        "tags": ["Payments"],
         "responses": {
           "200": {
             "description": "OK"
@@ -265,6 +355,7 @@
         }
       },
       "patch": {
+        "tags": ["Payments"],
         "responses": {
           "200": {
             "description": "OK"
@@ -272,73 +363,7 @@
         }
       },
       "delete": {
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-
-    "/api/discounts": {
-      "post": {
-        "tags": ["Discounts"],
-        "description": "Registra um novo desconto",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Discount"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": ""
-          }
-        }
-      },
-      "get": {
-        "tags": ["Discounts"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/discounts/:id": {
-      "get": {
-        "tags": ["Discounts"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Discounts"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Discount"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Discounts"],
+        "tags": ["Payments"],
         "responses": {
           "200": {
             "description": "OK"
@@ -348,8 +373,39 @@
     },
 
     "/api/transactions": {
+      "get": {
+        "tags": ["Transactions"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Lista todas as transações",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          }
+        }
+      }
+    },
+    "/api/transactions/:id": {
       "post": {
         "tags": ["Transactions"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Cria uma nova transação",
         "requestBody": {
           "content": {
             "application/json": {
@@ -362,49 +418,61 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "400": {
+            "description": "Wrong/missing fields"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          },
+          "404": {
+            "description": "Collaborator not found"
           }
         }
       },
       "get": {
         "tags": ["Transactions"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Lista uma transação",
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/transactions/:id": {
-      "get": {
-        "tags": ["Transaction"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Transaction"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Transaction"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          },
+          "404": {
+            "description": "Transaction not found"
           }
         }
       },
       "delete": {
-        "tags": ["Transaction"],
+        "tags": ["Transactions"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Remove uma transação",
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
+          },
+          "404": {
+            "description": "Transaction not found"
           }
         }
       }
@@ -464,6 +532,26 @@
           }
         }
       },
+      "BusinessUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false,
+            "example": "Nome do Business"
+          },
+          "email": {
+            "type": "string",
+            "nullable": false,
+            "example": "email@do.business"
+          },
+          "password": {
+            "type": "string",
+            "nullable": false,
+            "example": "SenhaDoBusiness1*#"
+          }
+        }
+      },
       "BusinessCollaborator": {
         "type": "object",
         "properties": {
@@ -471,21 +559,6 @@
             "type": "string",
             "nullable": true,
             "example": true
-          }
-        }
-      },
-      "Discount": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "number",
-            "nullable": false,
-            "example": 0
-          },
-          "type": {
-            "type": "string",
-            "nullable": true,
-            "example": "transporte"
           }
         }
       },
@@ -531,6 +604,16 @@
             "type": "string",
             "nullable": false,
             "example": "15/06/2022"
+          }
+        }
+      },
+      "Payment": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "array",
+            "nullable": false,
+            "example": ["transporte", "atrasos", "danos a patrimonios"]
           }
         }
       }
