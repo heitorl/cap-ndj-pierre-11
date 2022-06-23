@@ -1,4 +1,4 @@
-import AppDataSource from "../data-source";
+import { AppDataSource } from "../data-source";
 import { faker } from "@faker-js/faker";
 import { existsSync } from "fs";
 import path from "path";

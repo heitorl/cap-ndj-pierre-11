@@ -1,5 +1,5 @@
 import { Repository, UpdateResult, DeleteResult } from "typeorm";
-import AppDataSource from "../data-source";
+import import  {AppDataSource } from "../data-source""../data-source";
 import { Collaborators } from "../entities";
 import { hash } from "bcryptjs";
 

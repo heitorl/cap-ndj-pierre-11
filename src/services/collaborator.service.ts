@@ -8,7 +8,7 @@ import {
   serializedCreateCollaboratorSchema,
   serializedUpdateCollaboratorSchema,
 } from "../schemas";
-import AppDataSource from "../data-source";
+import import  {AppDataSource } from "../data-source""../data-source";
 
 dotenv.config();
 
