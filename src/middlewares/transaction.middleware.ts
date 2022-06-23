@@ -19,6 +19,19 @@ class TransactionsMiddleware {
         req.transaction = transaction;
         next();
     };
+
+    verifyTransactionsPaymentIfExist = async (req: Request, res: Response, next: NextFunction) => {
+        const { id } = req.params;
+
+        const transaction = (req.UserToken)?
+             await transactionsService.readByIdPayments(id, (req.UserToken instanceof Business)? req.UserToken: req.UserToken.busine):
+             await transactionsService.readByIdPayments(id, req.businessToken);
+        if(transaction){
+            throw new ErrorHandler(404, "the transaction is already paid");
+        }
+
+        next();
+    }
 };
 
 

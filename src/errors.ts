@@ -22,7 +22,7 @@ const errorHandler = (err: Error, res: Response) => {
     return res.status(409).json({ error: err.detail });
   }
 
-  return res.status(500).json({ message: err.message });
+  return res.status(500).json({ message: (err).stack });
 };
 
 export { ErrorHandler, errorHandler };

@@ -7,7 +7,7 @@ const DiscountsSchema = yup.object().shape({
 });
 
 const RegisterPaymentSchema = yup.object().shape({
-    discounts: yup.array().of(DiscountsSchema),
+    discount: yup.array().of(DiscountsSchema),
 });
 
 

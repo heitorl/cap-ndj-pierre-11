@@ -1,5 +1,5 @@
 import { Business, Collaborators, Transactions, Payments, Discounts } from "../entities";
-import { AppDataSource } from "../data-source";
+import AppDataSource from "../data-source";
 
 
 class PaymentService {
@@ -7,11 +7,18 @@ class PaymentService {
     const repository = AppDataSource.getRepository(Payments);
     const repositoryDiscount = AppDataSource.getRepository(Discounts);
 
+    datas.liquidValue = transactions.value;
+    datas.brut_value = transactions.value;
+    
     if(datas.discount){
-      for(let x = 0; x < datas.discount.length; x++){
-        datas.discount[x] = await repositoryDiscount.save({ ...datas.discount[x] })
-      }
+      datas.discount.forEach(async discount => {
+        if(datas.liquidValue > 1000 && datas.liquidValue - discount.value){
+          datas.liquidValue = datas.liquidValue - discount.value;
+          discount = await repositoryDiscount.save({ ...discount });
+        }
+      });
     }
+
     if(user instanceof Collaborators){
       return await repository.save({ ...datas, collaborator: user, transaction: transactions });
     }

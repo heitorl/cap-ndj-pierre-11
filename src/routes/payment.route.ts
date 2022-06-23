@@ -11,6 +11,7 @@ paymentRouter.post(
     validateToken,
     validatedSchema(RegisterPaymentSchema),
     TransactionMiddleware.verifyTransactionsIfExist,
+    TransactionMiddleware.verifyTransactionsPaymentIfExist,
     paymentController.createPayment,
 );
 

@@ -22,7 +22,7 @@ export class Transactions {
   @Column({ nullable: true })
   dateDeadline?: string;
 
-  @Column()
+  @Column({ type: "float" })
   value: number;
 
   @Column()
@@ -32,6 +32,7 @@ export class Transactions {
   type: string;
 
   @OneToOne(() => Payments, (payment) => payment.transaction, { lazy: true })
+  @JoinColumn()
   payment: Payments;
 
   @ManyToOne(() => Business, (busine) => busine.transactions)

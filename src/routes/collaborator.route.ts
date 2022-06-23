@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { collaboratorController } from "../controllers";
-import { validatedSchema, verifyEmailExists } from "../middlewares";
+import {
+  BusinessMiddleware,
+  validatedSchema,
+  verifyEmailExists,
+  verifyToken,
+} from "../middlewares";
 import { createCollaboratorSchema, loginCollaboratorSchema } from "../schemas";
 
 const collaboratorRouter = Router();
@@ -18,6 +23,16 @@ collaboratorRouter.post(
   collaboratorController.loginCollaborator
 );
 
-collaboratorRouter.get("", collaboratorController.reads);
+collaboratorRouter.get("", collaboratorController.getAll);
+
+collaboratorRouter.get("/:id", collaboratorController.retriveve);
+
+collaboratorRouter.patch("/:id", collaboratorController.updated);
+
+collaboratorRouter.get(
+  "/teste",
+  verifyToken,
+  collaboratorController.testeController
+);
 
 export default collaboratorRouter;
