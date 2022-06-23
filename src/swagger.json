@@ -46,6 +46,7 @@
         }
       }
     },
+
     "/api/business": {
       "get": {
         "tags": ["Business"],
@@ -297,7 +298,7 @@
       }
     },
 
-    "/api/payments": {
+    "/api/payments/:id": {
       "post": {
         "tags": ["Payments"],
         "parameters": [
@@ -329,44 +330,7 @@
             "description": "not authorized | Invalid token"
           },
           "404": {
-            "description": "Transaction not foun"
-          }
-        }
-      },
-      "get": {
-        "tags": ["Payments"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "not authorized | Jwt mal formated"
-          }
-        }
-      }
-    },
-    "/api/payments/:id": {
-      "get": {
-        "tags": ["Payments"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Payments"],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Payments"],
-        "responses": {
-          "200": {
-            "description": "OK"
+            "description": "Transaction not found | the transaction is already paid"
           }
         }
       }
@@ -473,6 +437,28 @@
           },
           "404": {
             "description": "Transaction not found"
+          }
+        }
+      }
+    },
+    "/api/transactions/payments": {
+      "get": {
+        "tags": ["Transactions"],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "description": "Lista todas as transações do usuário",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "not authorized | Invalid token"
           }
         }
       }
