@@ -1,5 +1,5 @@
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
-import import  {AppDataSource } from "../data-source""../data-source";
+import { AppDataSource } from "../data-source";
 import { Transactions } from "../entities";
 
 interface ITransactionRepo {
