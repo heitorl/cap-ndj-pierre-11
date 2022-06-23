@@ -5,9 +5,8 @@ import {
   CreateDateColumn,
   ManyToOne,
   OneToOne,
-  ManyToMany,
+  ManyToMany
 } from "typeorm";
-import { object } from "yup";
 import { Collaborators } from "./Collaborators";
 import { Discounts } from "./Discounts";
 import { Transactions } from "./Transactions";
@@ -26,7 +25,7 @@ export class Payments {
   @Column({ type: "float" })
   brut_value: number;
 
-  @ManyToMany(() => Discounts)
+  @ManyToMany(() => Discounts, (discount) => discount.payments)
   discount: Discounts[];
 
   @OneToOne(() => Transactions, (transaction) => transaction.payment)

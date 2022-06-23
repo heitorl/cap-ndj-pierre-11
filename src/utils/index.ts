@@ -1,4 +1,5 @@
-import { Business, Collaborators } from "../entities";
+import { Business, Collaborators, Transactions, } from "../entities";
+
 
 const RemovePassword = (datas: Partial<Business | Collaborators>) => {
   const { password, ...user } = datas;
@@ -12,4 +13,15 @@ const RemoveBusiness = (datas: Partial<Collaborators>) => {
   return user;
 };
 
-export { RemovePassword, RemoveBusiness };
+const RemoveUsers = (datas: Transactions) => {
+    const { busine, collaborator, ...transactions } = datas;
+
+    return transactions;
+}
+
+
+export {
+    RemovePassword,
+    RemoveBusiness,
+    RemoveUsers,
+};

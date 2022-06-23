@@ -1,24 +1,29 @@
-import { Request } from "express";
+import { Business, Collaborators, Transactions, Payments, Discounts } from "../entities";
+import AppDataSource from "../data-source";
+
 
 class PaymentService {
-  createPayment = async ({ body }: Request) => {
-    return "Basic create route";
-  };
+  createPayment = async (datas: Partial<Payments>, transactions: Transactions, user: Business | Collaborators) => {
+    const repository = AppDataSource.getRepository(Payments);
+    const repositoryDiscount = AppDataSource.getRepository(Discounts);
 
-  listAll = async ({ body }: Request) => {
-    return "Basic list all route";
-  };
+    datas.liquidValue = transactions.value;
+    datas.brut_value = transactions.value;
+    
+    if(datas.discount){
+      datas.discount.forEach(async discount => {
+        if(datas.liquidValue > 1000 && datas.liquidValue - discount.value){
+          datas.liquidValue = datas.liquidValue - discount.value;
+          discount = await repositoryDiscount.save({ ...discount });
+        }
+      });
+    }
 
-  listOne = async ({ body }: Request) => {
-    return "Basic list one route";
-  };
+    if(user instanceof Collaborators){
+      return await repository.save({ ...datas, collaborator: user, transaction: transactions });
+    }
 
-  update = async ({ body }: Request) => {
-    return "Basic update route";
-  };
-
-  delete = async ({ body }: Request) => {
-    return "Basic delete route";
+    return await repository.save({ ...datas, transaction: transactions });
   };
 }
 

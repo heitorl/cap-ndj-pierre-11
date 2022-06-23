@@ -15,10 +15,9 @@ class CollaboratorMiddleware {
     if (!collaborator) {
       throw new ErrorHandler(404, "Collaborator not found");
     }
-
-    req.collaborator = collaborator;
-    next();
-  };
+      req.collaborator = collaborator;
+      next();
+    };
 }
 
 export default new CollaboratorMiddleware();

@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToMany,
-  JoinTable,
 } from "typeorm";
 import { Payments } from "./Payments";
 
@@ -18,7 +17,6 @@ export class Discounts {
   @Column()
   type: string;
 
-  @ManyToMany(() => Payments, { eager: true })
-  @JoinTable()
+  @ManyToMany(() => Payments, (payment) => payment.discount)
   payments: Payments[];
 }

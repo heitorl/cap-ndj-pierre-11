@@ -8,6 +8,7 @@ import {
   serializedCreateCollaboratorSchema,
   serializedUpdateCollaboratorSchema,
 } from "../schemas";
+import AppDataSource from "../data-source";
 
 dotenv.config();
 
@@ -105,6 +106,18 @@ class CollaboratorService {
     const collaborator = await collaboratorRepositorie.findOne({
       collaboratorId: id,
     });
+
+    return collaborator;
+  };
+
+  readByEmail = async (email: string) => {
+    const repository = AppDataSource.getRepository(Collaborators);
+    return await repository.findOneBy({ email: email });
+  };
+  readByEmailBusiness = async (email: string) => {
+    const repository = AppDataSource.getRepository(Collaborators);
+    const collaborator = await repository.createQueryBuilder("collaborators")
+            .innerJoinAndSelect("collaborators.busine", "business").where({ email: email }).getOne();
 
     return collaborator;
   };

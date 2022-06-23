@@ -35,4 +35,5 @@ collaboratorRouter.get(
   collaboratorController.testeController
 );
 
+
 export default collaboratorRouter;

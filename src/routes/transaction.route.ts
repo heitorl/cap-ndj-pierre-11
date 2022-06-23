@@ -1,12 +1,38 @@
 import { Router } from "express";
 import { transactionController } from "../controllers";
+import { validatedSchema, validateToken, BusinessMiddleware, collaboratorMiddlewares, TransactionMiddleware } from "../middlewares";
+import { RegisterTransactionSchema } from "../schemas";
 
 const transactionRouter = Router();
 
-transactionRouter.post("/", transactionController.create);
-transactionRouter.get("/", transactionController.listAll);
-transactionRouter.get("/:id", transactionController.listOne);
-transactionRouter.patch("/:id", transactionController.update);
-transactionRouter.delete("/:id", transactionController.delete);
+transactionRouter.post(
+    "/:id",
+    BusinessMiddleware.verifyToken,
+    validatedSchema(RegisterTransactionSchema),
+    collaboratorMiddlewares.verifyCollaboratorIfExist,
+    transactionController.create,
+);
+transactionRouter.get(
+    "",
+    validateToken,
+    transactionController.listAll,
+);
+transactionRouter.get(
+    "/payments",
+    validateToken,
+    transactionController.readsTransaction
+);
+transactionRouter.get(
+    "/:id",
+    validateToken,
+    TransactionMiddleware.verifyTransactionsIfExist,
+    transactionController.listOne,
+);
+transactionRouter.delete(
+    "/:id",
+    BusinessMiddleware.verifyToken,
+    TransactionMiddleware.verifyTransactionsIfExist,
+    transactionController.delete,
+);
 
 export default transactionRouter;
