@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_URL,
   ssl:
@@ -31,5 +31,6 @@ const TestEnv = new DataSource({
   synchronize: true,
   entities: [path.join(__dirname, "./entities/**/*.{js,ts}")],
 });
+
 
 export default process.env.NODE_ENV === "test" ? TestEnv : AppDataSource;
