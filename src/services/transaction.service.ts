@@ -1,6 +1,6 @@
 import { Business, Collaborators, Transactions } from "../entities";
 
-import { AppDataSource } from "../data-source";
+import AppDataSource from "../data-source";
 
 class TransactionService {
   create = async (datas: Partial<Transactions>, business: Business, collaborator: Collaborators) => {

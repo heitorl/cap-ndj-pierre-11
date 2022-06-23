@@ -2,6 +2,8 @@ import {
   createCollaboratorSchema,
   serializedCreateCollaboratorSchema,
   loginCollaboratorSchema,
+  serializedGetCollaboratorSchema,
+  serializedUpdateCollaboratorSchema,
 } from "./collaborator";
 
 import * as yup from "yup";
@@ -10,7 +12,7 @@ import {
   LoginBusinessSchema,
   RegisterBusinessSchema,
   UpdateBusinessSchema,
-  RegisterCollaboratorSchema
+  RegisterCollaboratorSchema,
 } from "./business.schema";
 import { RegisterTransactionSchema } from "./transaction.schema";
 
@@ -29,6 +31,8 @@ export {
   createCollaboratorSchema,
   serializedCreateCollaboratorSchema,
   loginCollaboratorSchema,
+  serializedGetCollaboratorSchema,
+  serializedUpdateCollaboratorSchema,
   RegisterCollaboratorSchema,
   RegisterTransactionSchema,
   RegisterPaymentSchema,

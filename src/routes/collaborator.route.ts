@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { collaboratorController } from "../controllers";
 import {
+  BusinessMiddleware,
   validatedSchema,
   verifyEmailExists,
   verifyToken,
@@ -22,9 +23,16 @@ collaboratorRouter.post(
   collaboratorController.loginCollaborator
 );
 
+collaboratorRouter.get("", collaboratorController.getAll);
+
+collaboratorRouter.get("/:id", collaboratorController.retriveve);
+
+collaboratorRouter.patch("/:id", collaboratorController.updated);
+
 collaboratorRouter.get(
-  "",
-  collaboratorController.reads
+  "/teste",
+  verifyToken,
+  collaboratorController.testeController
 );
 
 

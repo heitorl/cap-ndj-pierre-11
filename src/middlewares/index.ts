@@ -9,23 +9,22 @@ import { verify } from "jsonwebtoken";
 import { Business } from "../entities";
 import { BusinessService, collaboratorService } from "../services";
 
-
 const validatedSchema =
   (schema: AnySchema) =>
-    async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        req.validatedDatas = await schema.validate(req.body, {
-          abortEarly: false,
-          stripUnknown: true,
-        });
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      req.validatedDatas = await schema.validate(req.body, {
+        abortEarly: false,
+        stripUnknown: true,
+      });
 
-        next();
-      } catch (err) {
-        if (err instanceof ValidationError) {
-          return res.status(400).send({ error: err.errors });
-        }
+      next();
+    } catch (err) {
+      if (err instanceof ValidationError) {
+        return res.status(400).send({ error: err.errors });
       }
-    };
+    }
+  };
 
 const validateToken = async (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;

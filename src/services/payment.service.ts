@@ -1,5 +1,5 @@
 import { Business, Collaborators, Transactions, Payments, Discounts } from "../entities";
-import { AppDataSource } from "../data-source";
+import AppDataSource from "../data-source";
 
 
 class PaymentService {

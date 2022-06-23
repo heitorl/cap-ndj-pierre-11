@@ -22,7 +22,7 @@ export class Transactions {
   @Column({ nullable: true })
   dateDeadline?: string;
 
-  @Column()
+  @Column({ type: "float" })
   value: number;
 
   @Column()
