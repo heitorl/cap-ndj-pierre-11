@@ -5,51 +5,43 @@ import { transactionRepository } from "../repositories";
 import { AppDataSource } from "../data-source";
 
 class TransactionService {
-  create = async (datas: Partial<Transactions>, user: Business | Collaborators) => {
+  create = async (datas: Partial<Transactions>, business: Business, collaborator: Collaborators) => {
       const repositoryTransactions = AppDataSource.getRepository(Transactions);
-      const repositoryCollaborators = AppDataSource.getRepository(Collaborators);
 
-      if(user instanceof Business){
-        const transaction = await repositoryTransactions.save({ ...datas, busine: user });
+      const transaction = await repositoryTransactions.save({ ...datas, collaborator: collaborator, busine: business });
 
-        return transaction;
-      }
-
-      if(user instanceof Collaborators){
-        const collaboratorDb = await repositoryCollaborators.createQueryBuilder("collaborators")
-            .innerJoinAndSelect("collaborators.busine", "business").where({ collaboratorId: user.collaboratorId }).getOne();
-        const transaction = await repositoryTransactions.save({ ...datas, busine: collaboratorDb.busine, collaborator: user });
-
-        return transaction;
-      }
+      return transaction;
   };
 
   listAll = async (datas: Partial<Transactions>, user: Business | Collaborators) => {
-    const repositoryCollaborators = AppDataSource.getRepository(Collaborators);
-    const repositoryBusiness = AppDataSource.getRepository(Business);
+    const repository = AppDataSource.getRepository(Transactions);
 
     if(user instanceof Business){
-      const businessDb = await repositoryBusiness.createQueryBuilder("business")
-            .innerJoinAndSelect("business.transactions", "transactions").where({ busineId: user.busineId }).getOne();
+      const transactions = await repository.createQueryBuilder("transactions").innerJoinAndSelect("transactions.busine", "business")
+        .innerJoinAndSelect("transactions.collaborator", "collaborators").where({ busine: user }).getMany();
       
-      return businessDb.transactions;
+      return transactions;
     }
     if(user instanceof Collaborators){
-      const collaboratorDb = await repositoryCollaborators.createQueryBuilder("collaborators")
-            .innerJoinAndSelect("collaborators.busine", "business").where({ collaboratorId: user.collaboratorId }).getOne();
+      const transactions = await repository.createQueryBuilder("transactions").innerJoinAndSelect("transactions.busine", "business")
+      .innerJoinAndSelect("transactions.collaborator", "collaborators").where({ busine: user.busine }).getMany();
 
-      return collaboratorDb.transactions;
+      return transactions;
     }
   };
 
-  listOne = async ({ params }: Request) => {
-    const transactionOne = await transactionRepository.findOne({
-      transactionId: params.id,
-    });
+  delete = async (id: string) => {
+    const repository = AppDataSource.getRepository(Transactions);
+    await repository.delete(id);
   };
 
-  delete = async ({ params }: Request) => {
-    const transactionDeleted = await transactionRepository.delete(params.id);
+
+  readById = async (id: string, business: Business) => {
+    const repository = AppDataSource.getRepository(Transactions);
+    const transaction = await repository.createQueryBuilder("transactions").innerJoinAndSelect("transactions.busine", "business")
+      .innerJoinAndSelect("transactions.collaborator", "collaborators").where({ transactionId: id, busine: business }).getOne();
+
+    return transaction;
   };
 }
 

@@ -7,6 +7,7 @@ declare global {
       decoded: Collaborators;
       collaborator: Collaborators;
       UserToken: Business | Collaborators;
+      transaction: Transactions;
     }
   }
 }

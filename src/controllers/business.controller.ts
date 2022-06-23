@@ -17,7 +17,7 @@ class BusinessController {
 
   register = async (req: Request, res: Response) => {
     try {
-      const business = await BusinessService.register(req.validatedDatas);
+      const business = await BusinessService.register(req.validatedDatas as Business);
 
       res.status(201).send({ business });
     } catch (err) {
@@ -32,7 +32,7 @@ class BusinessController {
     try {
       const business = await BusinessService.update(
         req.businessToken.busineId,
-        req.validatedDatas
+        req.validatedDatas as Business
       );
 
       res.send({ business });
@@ -49,13 +49,13 @@ class BusinessController {
   };
 
   registerCollaborator = async (req: Request, res: Response) => {
-    const collaborator = await BusinessService.registerCollaborator(req.collaborator, req.businessToken, req.validatedDatas);
+    const collaborator = await BusinessService.registerCollaborator(req.collaborator, req.businessToken, req.validatedDatas as Collaborators);
 
     res.send({ collaborator: RemovePassword(collaborator) });
   };
 
   updateCollaborator = async (req: Request, res: Response) => {
-    const collaborator = await BusinessService.updateCollaborator(req.collaborator, req.businessToken, req.validatedDatas);
+    const collaborator = await BusinessService.updateCollaborator(req.collaborator, req.businessToken, req.validatedDatas as Collaborators);
 
     res.send({ collaborator: RemovePassword(collaborator) });
   };
@@ -63,7 +63,7 @@ class BusinessController {
   deleteCollaborator = async (req: Request, res: Response) => {
     await BusinessService.deleteCollaborator(req.collaborator, req.businessToken);
 
-    res.send();
+    res.send({});
   };
 
 

@@ -86,7 +86,7 @@ class BusinessService {
         const repository = AppDataSource.getRepository(Business);
         const businessDb = await repository.createQueryBuilder("business")
             .innerJoinAndSelect("business.collaborators", "collaborators").where({ busineId: business.busineId }).getOne();
-
+        
         return businessDb?.collaborators? businessDb.collaborators: [];
     };
 

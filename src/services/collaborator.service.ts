@@ -71,6 +71,13 @@ class CollaboratorService {
     const repository = AppDataSource.getRepository(Collaborators);
     return await repository.findOneBy({ email: email });
   };
+  readByEmailBusiness = async (email: string) => {
+    const repository = AppDataSource.getRepository(Collaborators);
+    const collaborator = await repository.createQueryBuilder("collaborators")
+            .innerJoinAndSelect("collaborators.busine", "business").where({ email: email }).getOne();
+
+    return collaborator;
+  };
 }
 
 export default new CollaboratorService();

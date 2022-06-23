@@ -4,6 +4,7 @@ import verifyEmailExists from "./verifyEmailExists.middleware";
 import BusinessMiddleware from "./business.middleware";
 import verifyToken from "./verifyToken.middleware";
 import collaboratorMiddlewares from "./collaborator.middlewares";
+import TransactionMiddleware from "./transaction.middleware";
 import { verify } from "jsonwebtoken";
 import { Business } from "../entities";
 import { BusinessService, collaboratorService } from "../services";
@@ -44,8 +45,8 @@ const validateToken = async (req: Request, res: Response, next: NextFunction) =>
       req.UserToken = business;
       return next();
     }
-    const collaborator = await collaboratorService.readByEmail((decode as Business).email);
-    if (collaborator && collaborator.isPaymaster) {
+    const collaborator = await collaboratorService.readByEmailBusiness((decode as Business).email);
+    if (collaborator && collaborator.isPaymaster && collaborator?.busine) {
       req.UserToken = collaborator;
       return next();
     }
@@ -55,4 +56,4 @@ const validateToken = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 
-export { validatedSchema, BusinessMiddleware, verifyEmailExists, verifyToken, collaboratorMiddlewares, validateToken };
+export { validatedSchema, BusinessMiddleware, verifyEmailExists, verifyToken, collaboratorMiddlewares, validateToken, TransactionMiddleware };

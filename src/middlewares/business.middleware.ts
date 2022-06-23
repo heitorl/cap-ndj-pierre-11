@@ -33,7 +33,7 @@ class BusinessMiddleware {
     res: Response,
     next: NextFunction
   ) => {
-    if (!(await BusinessService.verifyLogin(req.validatedDatas))) {
+    if (!(await BusinessService.verifyLogin(req.validatedDatas as Business))) {
       return res.status(401).send({ error: "email or password is invalid" });
     }
 
