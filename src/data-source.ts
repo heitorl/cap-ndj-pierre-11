@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_URL,
   ssl:
@@ -24,8 +24,6 @@ const AppDataSource = new DataSource({
       ? ["build/migrations/*.js"]
       : [path.join(__dirname, "/migrations/**/*.{ts,js}")],
 });
-
-export { AppDataSource };
 
 // const TestEnv = new DataSource({
 //   type: "sqlite",

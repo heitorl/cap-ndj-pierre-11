@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "ts-node-dev --files --rs src/server.ts",
     "build": "tsc",
-    "start": "node ./build/app.js",
+    "start": "node build/app.js",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:create": "typeorm-ts-node-commonjs migration:create",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d ./src/data-source.ts",
