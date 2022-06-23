@@ -14,15 +14,15 @@ import { Payments } from "./Payments";
 @Entity()
 export class Transactions {
   @PrimaryGeneratedColumn("uuid")
-  transactionInId?: string;
+  transactionId?: string;
 
   @CreateDateColumn()
   dateEmission?: Date;
 
-  @CreateDateColumn()
-  dateDeadline?: Date;
+  @Column({ nullable: true })
+  dateDeadline?: string;
 
-  @Column()
+  @Column({ type: "float" })
   value: number;
 
   @Column()
@@ -31,9 +31,7 @@ export class Transactions {
   @Column()
   type: string;
 
-  @OneToOne(() => Payments, (payment) => payment.transaction, {
-    nullable: true,
-  })
+  @OneToOne(() => Payments, (payment) => payment.transaction, { lazy: true })
   @JoinColumn()
   payment: Payments;
 

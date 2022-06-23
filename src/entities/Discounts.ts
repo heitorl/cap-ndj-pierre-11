@@ -3,7 +3,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToMany,
-  JoinTable,
 } from "typeorm";
 import { Payments } from "./Payments";
 
@@ -12,13 +11,12 @@ export class Discounts {
   @PrimaryGeneratedColumn("uuid")
   discountId?: string;
 
-  @Column()
+  @Column({ type: "float" })
   value: number;
 
   @Column()
   type: string;
 
-  @ManyToMany(() => Payments, { eager: true })
-  @JoinTable()
+  @ManyToMany(() => Payments, (payment) => payment.discount)
   payments: Payments[];
 }

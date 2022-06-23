@@ -1,10 +1,13 @@
-import { Business } from "../../src/entities";
-
-
+import { bankData, Business, Collaborators, Transactions } from "../../src/entities";
 declare global {
-    namespace Express{
-        interface Request{
-            validatedBusiness: Partial<Business>;
-        }
+  namespace Express {
+    interface Request {
+      validatedDatas: Partial<Business | Collaborators | Transactions>;
+      businessToken: Business;
+      decoded: Collaborators;
+      collaborator: Collaborators;
+      UserToken: Business | Collaborators;
+      transaction: Transactions;
     }
+  }
 }

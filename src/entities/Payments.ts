@@ -5,9 +5,10 @@ import {
   CreateDateColumn,
   ManyToOne,
   OneToOne,
+  ManyToMany
 } from "typeorm";
-import { Business } from "./Business";
 import { Collaborators } from "./Collaborators";
+import { Discounts } from "./Discounts";
 import { Transactions } from "./Transactions";
 
 @Entity()
@@ -18,19 +19,17 @@ export class Payments {
   @CreateDateColumn()
   dateEmission?: Date;
 
-  @Column()
+  @Column({ type: "float" })
   liquidValue: number;
 
-  @Column()
+  @Column({ type: "float" })
   brut_value: number;
 
-  @OneToOne(() => Transactions, (transaction) => transaction.payment, {
-    lazy: true,
-  })
-  transaction: Transactions;
+  @ManyToMany(() => Discounts, (discount) => discount.payments)
+  discount: Discounts[];
 
-  @ManyToOne(() => Business, (busine) => busine.payments)
-  busine: Business;
+  @OneToOne(() => Transactions, (transaction) => transaction.payment)
+  transaction: Transactions;
 
   @ManyToOne(() => Collaborators, (collaborator) => collaborator.payments)
   collaborator: Collaborators;

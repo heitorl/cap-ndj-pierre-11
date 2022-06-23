@@ -1,30 +1,28 @@
 import { Response } from "express";
-import { ValidationError } from "yup";
+import { DatabaseError } from "pg";
 
 
-class ErrorHandler{
-    statusCode: number;
-    messages: string | object;
+type TMessage = string | Record<string, any>;
 
-    constructor(message: string | object, statusCode: number = 400){
-        this.statusCode = statusCode;
-        this.messages = message;
-    }
+class ErrorHandler {
+  public statusCode: number;
+  public error: TMessage;
+
+  constructor(statusCode: number, message: TMessage) {
+    this.statusCode = statusCode;
+    this.error = message;
+  }
 }
 
 const errorHandler = (err: Error, res: Response) => {
-    if(err instanceof ErrorHandler){
-        return res.status(err.statusCode).send({ "error": err.messages });
-    }
-    if(err instanceof ValidationError){
-        return res.status(400).send({ "error": err.errors });
-    }
+  if (err instanceof ErrorHandler) {
+    return res.status(err.statusCode).json({ error: err.error });
+  }
+  if(err instanceof DatabaseError){
+    return res.status(409).json({ error: err.detail });
+  }
 
-    res.status(400).send(err);
+  return res.status(500).json({ message: (err).stack });
 };
 
-
-export {
-    ErrorHandler,
-    errorHandler,
-};
+export { ErrorHandler, errorHandler };
