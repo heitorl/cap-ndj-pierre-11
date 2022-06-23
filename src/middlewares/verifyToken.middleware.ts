@@ -10,7 +10,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const token: string = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    throw new ErrorHandler(401, { message: "Missing authorization token." });
+    throw new ErrorHandler(401, "Missing authorization token.");
   }
 
   return verify(

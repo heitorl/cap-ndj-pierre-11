@@ -65,12 +65,14 @@ class CollaboratorService {
 
   getAll = async () => {
     const collaborators = await collaboratorRepositorie.all();
+    const listCollaborators = [];
 
-    // return await serializedGetCollaboratorSchema.validate(collaborators, {
-    //   stripUnknown: true,
-    // });
+    collaborators.map((c) => {
+      const { password, ...semPass } = c;
+      listCollaborators.push(semPass);
+    });
 
-    return collaborators;
+    return listCollaborators;
   };
 
   retrieve = async ({ params }: Request) => {
@@ -78,13 +80,10 @@ class CollaboratorService {
     const collaborator = await collaboratorRepositorie.findOne({
       collaboratorId: params.id,
     });
-  };
-  readById = async (id: string) => {
-    const collaborator = await collaboratorRepositorie.findOne({
-      collaboratorId: id,
-    });
 
-    return collaborator;
+    const { password, ...collaboratorOutPass } = collaborator;
+
+    return collaboratorOutPass;
   };
 
   updateCollaborator = async ({
@@ -100,6 +99,14 @@ class CollaboratorService {
     return await serializedUpdateCollaboratorSchema.validate(collaborator, {
       stripUnknown: true,
     });
+  };
+
+  readById = async (id: string) => {
+    const collaborator = await collaboratorRepositorie.findOne({
+      collaboratorId: id,
+    });
+
+    return collaborator;
   };
 }
 

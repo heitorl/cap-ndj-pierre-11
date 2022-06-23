@@ -20,10 +20,10 @@ export class Payments {
   @CreateDateColumn()
   dateEmission?: Date;
 
-  @Column()
+  @Column({ type: "float" })
   liquidValue: number;
 
-  @Column()
+  @Column({ type: "float" })
   brut_value: number;
 
   @ManyToMany(() => Discounts)
