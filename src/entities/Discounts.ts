@@ -12,7 +12,7 @@ export class Discounts {
   @PrimaryGeneratedColumn("uuid")
   discountId?: string;
 
-  @Column()
+  @Column({ type: "float" })
   value: number;
 
   @Column()
