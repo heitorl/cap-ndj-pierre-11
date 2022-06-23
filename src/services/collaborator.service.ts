@@ -4,10 +4,8 @@ import { sign } from "jsonwebtoken";
 import { Collaborators } from "../entities";
 import { collaboratorRepositorie } from "../repositories";
 import * as dotenv from "dotenv";
-import {
-  serializedCreateCollaboratorSchema,
-  serializedUpdateCollaboratorSchema,
-} from "../schemas";
+import { serializedCreateCollaboratorSchema } from "../schemas";
+import { AppDataSource } from "../data-source";
 
 dotenv.config();
 
@@ -48,37 +46,19 @@ class CollaboratorService {
       };
     }
 
-    const token: string = sign(
-      {
-        collaboratorId: collaborator.collaboratorId,
-        email: collaborator.email,
-        isPaymaster: collaborator.isPaymaster,
-      },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: process.env.EXPIRES_IN,
-      }
-    );
+    const token: string = sign({ ...collaborator }, process.env.SECRET_KEY, {
+      expiresIn: process.env.EXPIRES_IN,
+    });
 
     return { status: 200, message: { token } };
   };
 
-  getAll = async () => {
-    const collaborators = await collaboratorRepositorie.all();
-
-    // return await serializedGetCollaboratorSchema.validate(collaborators, {
-    //   stripUnknown: true,
-    // });
+  reads = async () => {
+    const collaborators = await collaboratorRepositorie.find();
 
     return collaborators;
   };
 
-  retrieve = async ({ params }: Request) => {
-    console.log(params);
-    const collaborator = await collaboratorRepositorie.findOne({
-      collaboratorId: params.id,
-    });
-  };
   readById = async (id: string) => {
     const collaborator = await collaboratorRepositorie.findOne({
       collaboratorId: id,
@@ -87,19 +67,19 @@ class CollaboratorService {
     return collaborator;
   };
 
-  updateCollaborator = async ({
-    params,
-    body,
-  }: Request): Promise<Partial<Collaborators>> => {
-    await collaboratorRepositorie.update(params.id, {
-      ...body,
-    });
-    const collaborator = await collaboratorRepositorie.findOne({
-      collaboratorId: params.id,
-    });
-    return await serializedUpdateCollaboratorSchema.validate(collaborator, {
-      stripUnknown: true,
-    });
+  readByEmail = async (email: string) => {
+    const repository = AppDataSource.getRepository(Collaborators);
+    return await repository.findOneBy({ email: email });
+  };
+  readByEmailBusiness = async (email: string) => {
+    const repository = AppDataSource.getRepository(Collaborators);
+    const collaborator = await repository
+      .createQueryBuilder("collaborators")
+      .innerJoinAndSelect("collaborators.busine", "business")
+      .where({ email: email })
+      .getOne();
+
+    return collaborator;
   };
 }
 

@@ -10,7 +10,7 @@ class CollaboratorMiddleware{
 
         const collaborator = await collaboratorService.readById(id);
         if(!collaborator){
-            throw new ErrorHandler(404, "Collaborator not found");
+            throw new ErrorHandler(404, "Transaction not found");
         }
 
         req.collaborator = collaborator;

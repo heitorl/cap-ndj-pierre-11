@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToOne,
   ManyToMany,
+  JoinColumn
 } from "typeorm";
 import { object } from "yup";
 import { Collaborators } from "./Collaborators";
@@ -26,10 +27,11 @@ export class Payments {
   @Column()
   brut_value: number;
 
-  @ManyToMany(() => Discounts)
+  @ManyToMany(() => Discounts, (discount) => discount.payments)
   discount: Discounts[];
 
   @OneToOne(() => Transactions, (transaction) => transaction.payment)
+  @JoinColumn()
   transaction: Transactions;
 
   @ManyToOne(() => Collaborators, (collaborator) => collaborator.payments)

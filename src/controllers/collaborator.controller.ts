@@ -16,26 +16,16 @@ class CollaboratorController {
     return res.status(status).json(message);
   };
 
-  getAll = async (_: Request, res: Response) => {
-    const collaborators = await collaboratorService.getAll();
+  reads = async (_: Request, res: Response) => {
+    const collaborators = await collaboratorService.reads();
 
-    return res.status(200).json(collaborators);
-  };
+    res.send({
+      collaborators: collaborators.map((collaborator) => {
+        const { password, isPaymaster, ...c } = collaborator;
 
-  retriveve = async (req: Request, res: Response) => {
-    const collaborator = await collaboratorService.retrieve(req);
-
-    return res.status(200).json(collaborator);
-  };
-
-  updated = async (req: Request, res: Response) => {
-    const collaborator = await collaboratorService.updateCollaborator(req);
-
-    return res.status(200).json(collaborator);
-  };
-
-  testeController = (req: Request, res: Response) => {
-    return res.status(200).json({ msg: "teste" });
+        return c;
+      }),
+    });
   };
 }
 
